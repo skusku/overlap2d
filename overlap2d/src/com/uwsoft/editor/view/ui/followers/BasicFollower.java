@@ -63,14 +63,23 @@ public abstract class BasicFollower extends Group {
         int pixelPerWU = sandbox.sceneControl.sceneLoader.getRm().getProjectVO().pixelToWorld;
 
     	Vector2 position = Pools.obtain(Vector2.class);
+
         position.x = 0; position.y = 0;
         TransformMathUtils.localToAscendantCoordinates(sandbox.getCurrentViewingEntity(), entity, position);
         position = Sandbox.getInstance().worldToScreen(position);
 
         setX((int) (position.x));
         setY((int) (position.y));
-        setWidth(pixelPerWU * dimensionsComponent.width * transformComponent.scaleX / camera.zoom);
-        setHeight(pixelPerWU * dimensionsComponent.height * transformComponent.scaleY / camera.zoom);
+
+        if(dimensionsComponent.boundBox != null)
+        {
+            setWidth( pixelPerWU * (dimensionsComponent.boundBox.x + dimensionsComponent.boundBox.width) * transformComponent.scaleX / camera.zoom );
+            setHeight( pixelPerWU * (dimensionsComponent.boundBox.y + dimensionsComponent.boundBox.height) * transformComponent.scaleY / camera.zoom );
+        }
+        else {
+            setWidth( pixelPerWU * dimensionsComponent.width * transformComponent.scaleX / camera.zoom );
+            setHeight( pixelPerWU * dimensionsComponent.height * transformComponent.scaleY / camera.zoom );
+        }
 
         Pools.free(position);
 
