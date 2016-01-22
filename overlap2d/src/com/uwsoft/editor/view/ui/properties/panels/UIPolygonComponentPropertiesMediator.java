@@ -104,13 +104,11 @@ public class UIPolygonComponentPropertiesMediator extends UIItemPropertiesMediat
 
     private void addDefaultMesh() {
         DimensionsComponent dimensionsComponent = ComponentRetriever.get(observableReference, DimensionsComponent.class);
-        if(dimensionsComponent.boundBox != null) {
-            polygonComponent.makeRectangle( dimensionsComponent.boundBox.x,
-                    dimensionsComponent.boundBox.y,
-                    dimensionsComponent.boundBox.width,
-                    dimensionsComponent.boundBox.height);
+        if(dimensionsComponent.boundBox != null) { // If the bound box is not null we have a Composite Item!
+            polygonComponent.makeRectangle( dimensionsComponent.boundBox.x, dimensionsComponent.boundBox.y, dimensionsComponent.boundBox.width, dimensionsComponent.boundBox.height);
         }
-        else {
+        else // Otherwise its a normal item
+        {
             polygonComponent.makeRectangle( dimensionsComponent.width, dimensionsComponent.height );
         }
 
